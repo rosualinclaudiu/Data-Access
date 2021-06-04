@@ -1,0 +1,30 @@
+{
+    "students": [
+        {
+            "prenume": "Dragos",
+            "numeDeFamilie": "Barbuta",
+            "carnetDeStudent": null,
+            "anulNasterii": 21,
+            "specializarea": [
+                {
+                    "denumire": "JavaScript",
+                    "prescurtare": "JS"
+                },
+                {
+                    "denumire": "Designer",
+                    "prescurtare": "DS"
+                }
+            ]
+        },
+        {
+            "prenume": "Tudor",
+            "numeDeFamilie": "Popescu",
+            "carnetDeStudent": true,
+            "anulNasterii": 18,
+            "specializarea": {
+                "denumire": "Designer",
+                "prescurtare": "DS"
+            }
+        }
+    ]
+}

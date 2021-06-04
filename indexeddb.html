@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+
+        let student1 = {
+            name: 'Ion Pop',
+            email: 'ion@gmail.com'
+        }
+        let student2 = {
+            name: 'George',
+            email: 'ion@gmail.com'
+        }
+        let student3 = {
+            name: 'Ion Pop',
+            email: 'ion@gmail.com'
+        }
+
+
+        window.indexedDB = window.indexedDB || window.webkitIndexedDB || window.msIndexedDB
+        let db = null
+        let tx = null
+        let store = null
+
+        let store_name = "StudentsObjectStore"
+
+        if (!window.indexedDB) {
+            alert('Indexed Db nu a fost gasit')
+        }
+
+        let request = window.indexedDB.open("Students", 1)
+
+
+        // a fost deschisa cu succes
+        request.onsuccess = e => {
+            console.log('Open success')
+
+            // baze de date
+            db = request.result
+
+            // tranzactia
+            tx = db.transaction(store_name, "readwrite")
+
+            // store
+            store = tx.objectStore(store_name)
+
+            // adaugarea studentului 1
+            let add_request = store.add(student1)
+            add_request.onsuccess = e => {
+                console.log("Item added succesfully" + e.result)
+            }
+            add_request.onerror = e => {
+                console.log("Item couldn't be added")
+            }
+
+            // let get_request = store.get(81)
+            // get_request.onsuccess = e => {
+            //     console.log("Item added succesfully" + get_request.result.name)
+            // }
+            // get_request.onerror = e => {
+            //     console.log("Item couldn't be added")
+            // }
+
+            store.openCursor().onsuccess = (e) => {
+                var cursor = e.target.result
+                if (cursor) {
+                    console.log("item: " + cursor.key + " with value: " + cursor.value.name)
+                    cursor.continue()
+                } else {
+                    console.log("Nu mai sunt intrari")
+                }
+            }
+        }
+
+        // in caz de eroare la deschidere
+        request.onerror = e => {
+            console.log('Open error')
+        }
+
+        // nu exista
+        request.onupgradeneeded = e => {
+            let db = request.result
+
+            // se creeaza o singura data
+            let store =  db.createObjectStore(store_name, { autoIncrement: true })
+            
+
+
+            console.log('Open onupgradeneeded')
+        }
+
+    </script>
+
+</body>
+</html>
