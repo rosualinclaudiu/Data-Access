@@ -6,4 +6,8 @@ ws.on('connection', function(ws){
     })
 
     ws.send('Asta e un mesaj din partea serverului catre client')
+
+    setInterval(
+        () => ws.send('Asta e un mesaj din partea serverului catre client')
+    )
 })
